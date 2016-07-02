@@ -1,0 +1,167 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:PSU-version1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 6
+Title "PSU"
+Date ""
+Rev "1"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Diode_Bridge D?
+U 1 1 5777E6AA
+P 3900 2500
+F 0 "D?" H 3650 2800 50  0000 C CNN
+F 1 "Diode_Bridge" H 4250 2150 50  0000 C CNN
+F 2 "" H 3900 2500 50  0000 C CNN
+F 3 "" H 3900 2500 50  0000 C CNN
+	1    3900 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X02 P?
+U 1 1 5777E765
+P 1900 2050
+F 0 "P?" H 1900 2200 50  0000 C CNN
+F 1 "CONN_01X02" V 2000 2050 50  0000 C CNN
+F 2 "" H 1900 2050 50  0000 C CNN
+F 3 "" H 1900 2050 50  0000 C CNN
+	1    1900 2050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2100 2000 3900 2000
+Wire Wire Line
+	3900 2000 3900 2100
+Wire Wire Line
+	2100 2100 2400 2100
+Wire Wire Line
+	2400 2100 2400 3200
+Wire Wire Line
+	2400 3200 3900 3200
+Wire Wire Line
+	3900 3200 3900 2900
+$Comp
+L GND #PWR?
+U 1 1 5777E966
+P 3200 2900
+F 0 "#PWR?" H 3200 2650 50  0001 C CNN
+F 1 "GND" H 3200 2750 50  0000 C CNN
+F 2 "" H 3200 2900 50  0000 C CNN
+F 3 "" H 3200 2900 50  0000 C CNN
+	1    3200 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3500 2500 3200 2500
+Wire Wire Line
+	3200 2500 3200 2900
+$Comp
+L CP C?
+U 1 1 5777E9EE
+P 5000 2750
+F 0 "C?" H 5025 2850 50  0000 L CNN
+F 1 "CP" H 5025 2650 50  0000 L CNN
+F 2 "" H 5038 2600 50  0000 C CNN
+F 3 "" H 5000 2750 50  0000 C CNN
+	1    5000 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4300 2500 7450 2500
+Wire Wire Line
+	5000 2500 5000 2600
+$Comp
+L GND #PWR?
+U 1 1 5777EA7F
+P 5000 3000
+F 0 "#PWR?" H 5000 2750 50  0001 C CNN
+F 1 "GND" H 5000 2850 50  0000 C CNN
+F 2 "" H 5000 3000 50  0000 C CNN
+F 3 "" H 5000 3000 50  0000 C CNN
+	1    5000 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5000 3000 5000 2900
+$Comp
+L LED D?
+U 1 1 5777EAE0
+P 5600 2800
+F 0 "D?" H 5600 2900 50  0000 C CNN
+F 1 "LED" H 5600 2700 50  0000 C CNN
+F 2 "" H 5600 2800 50  0000 C CNN
+F 3 "" H 5600 2800 50  0000 C CNN
+	1    5600 2800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R?
+U 1 1 5777EB77
+P 5600 3250
+F 0 "R?" V 5680 3250 50  0000 C CNN
+F 1 "R" V 5600 3250 50  0000 C CNN
+F 2 "" V 5530 3250 50  0000 C CNN
+F 3 "" H 5600 3250 50  0000 C CNN
+	1    5600 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5777EBB4
+P 5600 3500
+F 0 "#PWR?" H 5600 3250 50  0001 C CNN
+F 1 "GND" H 5600 3350 50  0000 C CNN
+F 2 "" H 5600 3500 50  0000 C CNN
+F 3 "" H 5600 3500 50  0000 C CNN
+	1    5600 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 3500 5600 3400
+Wire Wire Line
+	5600 3100 5600 3000
+Wire Wire Line
+	5600 2500 5600 2600
+Connection ~ 5600 2500
+Text HLabel 7450 2700 0    60   Output ~ 0
+UnRegulateVoltage
+Wire Wire Line
+	7450 2500 7450 2700
+$EndSCHEMATC
