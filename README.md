@@ -5,9 +5,9 @@ Im going to use a transformer that I got, it is a 2x18V @ 1.8A. I also got a 230
 
 ## Goals
 
-[ ] Can be controlled over uart
-[ ] Can regulate it is voltage output
-[ ] Can current limit it is output
+- [ ] Can be controlled over uart
+- [ ] Can regulate it is voltage output
+- [ ] Can current limit it is output
 
 ## Hardware
 
