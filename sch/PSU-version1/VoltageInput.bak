@@ -465,4 +465,6 @@ Connection ~ 5600 2500
 Connection ~ 5000 2500
 Wire Wire Line
 	5600 3000 5600 2900
+Text Notes 4100 3450 0    60   ~ 0
+the two Cin is probally not need as the maximal ripple voltage is 2.272V.\nWith one Cin the maximal ripple voltage is 4.545V.
 $EndSCHEMATC
