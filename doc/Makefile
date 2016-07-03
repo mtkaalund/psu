@@ -16,3 +16,4 @@ clean:
 	@rm -rfv *.dvi
 	@rm -rfv *.aux
 	@rm -rfv *.log
+	@rm -rfv *.toc
