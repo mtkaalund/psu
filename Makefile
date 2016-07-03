@@ -1,7 +1,7 @@
 SUBDIRS = doc src
 .PHONY: subdirs $(SUBDIRS)
 
-subdirs: $(SUBDIRS)
+subdirs: $(SUBDIRS) all
 
 $(SUBDIRS):
 	$(MAKE) -C $@
