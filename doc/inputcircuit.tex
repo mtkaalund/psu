@@ -1,2 +1,6 @@
 \section{Input Circuit}
-For the input supply I am going to use a transformator 2x18V at 1.5A. I am going to connect the 18V's in series to get 36V at 1.5A.
+For the input supply I am going to use a transformator 2x18V at 1.5A, that I already have. I am going to connect the 18V's in series to get 36V at 1.5A.
+The 36 volt ac are going to be converted to dc, via fullwave diode bridge. Sinces the ac voltage specified on the transformer is RMS voltage, an not the peak voltage. We can calculate what the dc voltage will become assuming no losses.
+\begin{equation}
+V_{dc} = \frac{ 2 \cdot V_{ max } }{ \phi } = 0.637 \cdot V_{ max } = 0.9 \cdot V_{ RMS }
+\end{equation}
