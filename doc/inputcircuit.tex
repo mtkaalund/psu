@@ -1,5 +1,33 @@
 \section{Input Circuit}
-For the input supply I am going to use a transformator 2x18V at 1.5A, that I already have. I am going to connect the 18V's in series to get 36V at 1.5A.
+In Europe the mains voltage in houses is 230 volts, all of the input circuit before the transformer needs to be designed to that voltages. 
+As this part of the input circuit we want to besure that the noise on mains volts do not propegate to our output volts, we are going to use a $\pi$-filter to filter out some noise. This will also double as filter for any noise we are going to send out to the mains voltage. The one I am going to use is one that I have bougth a long time ago. As a means for input protection we are also going to use fuse (see formula \ref{eq:transfer-transformer} on page \pageref{eq:transfer-transformer}).
+
+\subsection{Transformer}
+The transfer formula for the transformer 
+\begin{align}\label{eq:transfer-transformer}
+m &= \frac{I_s}{I_p} = \frac{V_p}{V_s}
+\end{align}
+For the input supply I am going to use a transformer 2x18V at 1.5A, that I already have. And I am going to connect the 18V's in series to get 36V at 1.5A. But for finding the transfer value we can use formula \ref{eq:transfer-transformer}.
+\begin{align}
+m = \frac{V_p}{V_s} = \frac{230V}{18V} = 12.78 \nonumber
+\end{align}
+ To find out which size of fuse that we are going to be using, we need to find out how much current that are going to be used on the main side of the transformer.
+We are going rearrange in formula \ref{eq:transfer-transformer} as we know what $I_s$ is and we have calculated $m$.
+\begin{align}
+m = \frac{I_s}{I_p} \nonumber \\
+\Rightarrow \nonumber \\
+I_p \cdot m = I_p \cdot \frac{I_s}{I_p} = I_s \nonumber \\
+\Rightarrow \nonumber \\
+\frac{ I_p \cdot m}{m} = \frac{I_s}{m} \nonumber \\
+\Rightarrow \nonumber \\
+I_p = \frac{I_s}{m} \label{eq:found-Ip}
+\end{align}
+Now we can calculate $I_p$ with $I_s$ and $m$ from \ref{eq:found-Ip}.
+\begin{align}
+I_p = \frac{I_s}{m} = \frac{1.5A}{12.78} = 0.117A = \underline{\underline{117mA}} \nonumber 
+\end{align}
+So the primary side of the transformer needs a fuse of 117mA, but as I can not find that size, the one that is going to be used is a 125mA.
+
 The 36 volt ac are going to be converted to dc, via fullwave diode bridge. Sinces the ac voltage specified on the transformer is RMS voltage, an not the peak voltage. We can calculate what the dc voltage will become assuming no losses.
 \begin{align} \label{eq:calc_vdc}
 V_{ dc } &= \frac{ 2 \cdot V_{ max } }{ \pi } \\
@@ -13,5 +41,5 @@ But since we are going to use a bridge rectifier there is two times diode voltag
 \subsection{Ripple voltage}
 
 \begin{align}\label{eq:calc_vripple}
-V_{ ripple } = \frac{ I_{ load } }{ f \times C } [V]
+V_{ ripple } &= \frac{ I_{ load } }{ f \times C } [V]
 \end{align}
