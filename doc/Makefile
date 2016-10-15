@@ -36,4 +36,4 @@ clean:
 #	@rm -rfv *.log
 #	@rm -rfv *.toc
 #	@rm -rfv *.tex.bak
-	$(RM) *.out *.pdf *.dvi *.aux *.log *.toc *.tex.bak
+	$(RM) *.out *.pdf *.dvi *.aux *.log *.toc *.tex.bak *.bbl *.blg
