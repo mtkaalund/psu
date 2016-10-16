@@ -44,10 +44,27 @@ We need to figure out how much ripple voltage, that we can get away with at this
 \begin{align}\label{eq:calc_vripple}
 V_{ ripple } &= \frac{ I_{ load } }{ f \times C } [V]
 \end{align}
-If we choose a big capacitor, then the time for it going to be discharge from fully charged is going to be long. As long there is voltage on the capacitor the rest of the circuit is working. Since the only thing there is going to discharge it is a LED showing it has power. The LED draws around 20 - 30mA when being lid.
+If we choose a big capacitor, then the time for it going to be discharge from fully charged is going to be long. As long there is voltage on the capacitor the rest of the circuit is working. At table \ref{tab:choose-c} I have made some calculation of a couple of capacitor that I can buy.
 
-Which can be found with:
-\begin{align}
-\tau &= R \cdot C
-\end{align}
+\begin{table}[h]
+\centering
+\caption{Choosing smooting capacitor} \label{tab:choose-c}
+\begin{tabular}{|c|c|c|c|c|} 
+\firsthline
+C & $V_{ripple}$ \@ 1.5A & $V_{ripple}$ \@ 1A & $V_{ripple}$ \@ 500mA & $V_{ripple}$ \@ 10mA \\ \hline \hline
 
+100 uF &			 &		      &			      &		\\ \hline
+120 uF  &			 &		      &			      &		\\ \hline
+150 uF  &			 &		      &			      &		\\ \hline
+180 uF  &			 &		      &			      &		\\ \hline
+220 uF  &			 &		      &			      &		\\ \hline
+270 uF  &			 &		      &			      &		\\ \hline
+330 uF  &			 &		      &			      &		\\ \hline
+390 uF  &			 &		      &			      &		\\ \hline
+470 uF  &			 &		      &			      &		\\ \hline
+560 uF  &			 &		      &			      &		\\ \hline
+680 uF  &			 &		      &			      &		\\ \hline
+820 uF  &			 &		      &			      &		\\ \hline
+\end{tabular}
+\end{table}
+%C	&	V_{ripple} \@ 500mA 	& V_{ripple} \@ 10mA \\ \hline 
