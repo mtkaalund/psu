@@ -39,36 +39,10 @@ V_{ dc } &= \frac{ 2 \cdot V_{ max } }{ \pi } \\
 But since we are going to use a bridge rectifier there is two times diode voltage drop that gives total drop of \(1.4V\). Which meaning that we are properly only going to see around \( 31V \) if measure at the diode bridge output. And the 50Hz frequency is being doubled to 100Hz.
 
 \subsection{Ripple voltage}
-<<<<<<< HEAD
-To remove some of the input noise, we are going to put a capacitor on the input, right after the bridge rectifier. To calculate the size of the capacitor we are going to use formula \ref{eq:input-c} to calculate it. $V_{ ripple }$ is the maximum voltage ripple we are going to have.
-\begin{align}\label{eq:calc_vripple}
-V_{ ripple } &= \frac{ I_{ load } }{ f \cdot C } [V] \\ 
-\Downarrow \nonumber \\
-C \cdot V_{ ripple } &= \frac{ I_{ load } }{ f } \nonumber \\
-\Downarrow \nonumber \\
-C &= \frac{ I_{ load } }{ f \cdot V_{ ripple } }\label{eq:input-c}
-\end{align}
-
-So if we set $I_{ load }$ to $1.5A$ as this is the maximum load. The freqency is two times $50Hz$ so if we can set $f=100Hz$.
-
-\begin{align}
-V_{ ripple } &= \frac{ V_p } {R_L \cdot C}\cdot \Delta t \\
-\Downarrow \nonumber \\
-V_{ ripple } &= \frac{ V_{ p } } { \frac{ V_{ p } }{ I_{ load } } \cdot C } \cdot \Delta t \nonumber \\
-\Downarrow \nonumber \\
-V_{ ripple } &= \frac{ V_{ p } \cdot I_{ load } } { V_{ p } \cdot C } \cdot \Delta t \nonumber \\
-\Downarrow \nonumber \\
-V_{ ripple } &= \frac{ I_{ load } }{ C } \cdot \Delta t \nonumber \\
-\Downarrow \nonumber \\
-V_{ ripple } &= \frac{ I_{ load } }{ C } \cdot \frac{ 1 }{ f } \nonumber \\
-\Downarrow \nonumber \\
-V_{ ripple } &= \frac{ I_{ load } }{ C \cdot f } \nonumber \\
-=======
 The diode bridge does not create a dc voltage, but rather flips over the negativ half of the sinus wave to the positive. So there is a need for smoothering out the sinus wave to get a dc voltage. 
 We need to figure out how much ripple voltage, that we can get away with at this point. We are going to use formula \ref{eq:calc_vripple} to calculate our $V_{ripple}$.
 \begin{align}\label{eq:calc_vripple}
 V_{ ripple } &= \frac{ I_{ load } }{ f \times C } [V]
->>>>>>> ece659e353807493aada63216e5cf5e703d57212
 \end{align}
 If we choose a big capacitor, then the time for it going to be discharge from fully charged is going to be long. As long there is voltage on the capacitor the rest of the circuit is working. At table \ref{tab:choose-c} I have made some calculation of a couple of capacitor that I can buy.
 

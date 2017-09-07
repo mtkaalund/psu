@@ -5,17 +5,14 @@ HEADDOCUMENT=psu.tex
 ######
 RM=@rm -rfv
 #####
-<<<<<<< HEAD
-psu.pdf: $(PROJECT) dvi
-	pdflatex $(PROJECT)
-=======
+$(PROJECT).pdf: $(HEADDOCUMENT) dvi
+	pdflatex $(HEADDOCUMENT)
 .DEFAULT: all
 .PHONY: all clean
 
 $(PROJECT).pdf: $(FILES)
 	$(PDFCMD) $(HEADDOCUMENT)
 	$(PDFCMD) $(HEADDOCUMENT)
->>>>>>> ece659e353807493aada63216e5cf5e703d57212
 
 spell-en: $(PROJECT)
 	aspell -l en -t -c $(PROJECT)
