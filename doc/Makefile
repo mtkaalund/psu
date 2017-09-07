@@ -1,10 +1,21 @@
-PROJECT=psu.tex
-
+PROJECT=Documentation
+PDFCMD	?= pdflatex -halt-on-error -file-line-error -shell-escape -jobname=$(PROJECT)
+FILES=$(wildcard *.tex)
+HEADDOCUMENT=psu.tex
 ######
 RM=@rm -rfv
 #####
+<<<<<<< HEAD
 psu.pdf: $(PROJECT) dvi
 	pdflatex $(PROJECT)
+=======
+.DEFAULT: all
+.PHONY: all clean
+
+$(PROJECT).pdf: $(FILES)
+	$(PDFCMD) $(HEADDOCUMENT)
+	$(PDFCMD) $(HEADDOCUMENT)
+>>>>>>> ece659e353807493aada63216e5cf5e703d57212
 
 spell-en: $(PROJECT)
 	aspell -l en -t -c $(PROJECT)
@@ -16,12 +27,12 @@ dvi: $(PROJECT)
 	latex $(PROJECT)
 
 compress: psu.pdf
-	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="psu-compressed.pdf" "psu.pdf"
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="psu-compressed.pdf" "$(PROJECT).pdf"
 
-show: psu.pdf
-	evince psu.pdf &
+show: $(PROJECT).pdf
+	evince $(PROJECT).pdf &
 
-all: psu.pdf dvi
+all: $(PROJECT).pdf
 
 clean:
 #	@rm -rfv *.pdf
@@ -30,4 +41,4 @@ clean:
 #	@rm -rfv *.log
 #	@rm -rfv *.toc
 #	@rm -rfv *.tex.bak
-	$(RM) *.out *.pdf *.dvi *.aux *.log *.tox *.tex.bak
+	$(RM) *.out *.pdf *.dvi *.aux *.log *.toc *.tex.bak *.bbl *.blg

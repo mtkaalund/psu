@@ -1,4 +1,17 @@
+<<<<<<< HEAD
 PROJECT=psu.tex
+=======
+\documentclass[a4paper,openany,fleqn,final]{memoir}
+\usepackage{cmbright}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,danish]{babel}
+\usepackage{mathtools}
+\usepackage{iflang}
+\usepackage{array}
+%%% Color page
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+>>>>>>> ece659e353807493aada63216e5cf5e703d57212
 
 ######
 RM=@rm -rfv
@@ -23,6 +36,7 @@ show: psu.pdf
 
 all: psu.pdf dvi
 
+<<<<<<< HEAD
 clean:
 #	@rm -rfv *.pdf
 #	@rm -rfv *.dvi
@@ -31,3 +45,43 @@ clean:
 #	@rm -rfv *.toc
 #	@rm -rfv *.tex.bak
 	$(RM) *.out *.pdf *.dvi *.aux *.log *.tox *.tex.bak
+=======
+\makeevenfoot{psu}{}{}{\small Page \thepage\ of \thelastpage}
+\makeoddfoot{psu}{}{}{\small Page \thepage\ of \thelastpage}
+\makeevenhead{psu}{\small\itshape\leftmark}{}{}
+\makeoddhead{psu}{\small\itshape\rightmark}{}{}
+\makeheadrule{psu}{\textwidth}{\normalrulethickness}
+\makefootrule{psu}{\textwidth}{\normalrulethickness}{\footruleskip}
+\makeatletter
+\makepsmarks {psu}{
+\nouppercaseheads
+\createmark {chapter} {both} {shownumber}{\@chapapp\ }{. \ }
+\createmark {section} {right}{shownumber}{} {. \ }
+\createmark {subsection} {right}{shownumber}{} {. \ }
+\createmark {subsubsection}{right}{shownumber}{} {. \ }
+\createplainmark {toc} {both} {\contentsname}
+\createplainmark {lof} {both} {\listfigurename}
+\createplainmark {lot} {both} {\listtablename}
+\createplainmark {bib} {both} {\bibname}
+\createplainmark {index} {both} {\indexname}
+\createplainmark {glossary} {both} {\glossaryname}
+}
+\makeatother
+\pagestyle{psu}
+%%%%% Page Style %%%%%
+
+\begin{document}
+\selectlanguage{english}
+\begin{titlingpage}
+\titlePSU
+\end{titlingpage}
+
+\tableofcontents
+
+\chapter{Design and Calculations}
+\include{inputcircuit}
+
+\include{si-prefix}
+
+\end{document}
+>>>>>>> ece659e353807493aada63216e5cf5e703d57212
