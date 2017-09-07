@@ -1,87 +1,33 @@
-\documentclass[a4paper,openany,fleqn,final]{memoir}
-\usepackage{cmbright}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[english,danish]{babel}
-\usepackage{mathtools}
-\usepackage{iflang}
-%%% Color page
-\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+PROJECT=psu.tex
 
-%%% Hyperlink
-\usepackage{hyperref}
-\usepackage{memhfixc}
+######
+RM=@rm -rfv
+#####
+psu.pdf: $(PROJECT) dvi
+	pdflatex $(PROJECT)
 
-%%% Custom variables and commands
-\newtoks\subtitle
-\newtoks\revision
-\newcommand{\ShowRevision}{\footnotesize\itshape  \if\relax\revision\relax Revision \the\revision, \IfLanguageName{danish}{kompileret den}{compiled on} \today \else \today
-\fi}
-\newcommand{\ShowSubtitle}{\large \if\relax\subtitle\relax \textit{\the\subtitle} \fi}
+spell-en: $(PROJECT)
+	aspell -l en -t -c $(PROJECT)
 
-%%% Information
-\author{M.T.Kaalund}
-\title{A DIY \\[0.5\baselineskip] Power-supply}
-\subtitle{A design document}
-\revision{1a}
-%%%%% Title page %%%%%
-%% Title page changed from: http://www.latextemplates.com/template/vertical-line-title-page
-\newcommand*{\titlePSU}{\begingroup % Create the command for including the title page in the document
-\hbox{ % Horizontal box
-\hspace*{0.2\textwidth} % Whitespace to the left of the title page
-\color{NavyBlue}\rule{5pt}{\textheight}
+spell-da: $(PROJECT)
+	aspell -l da -t -c $(PROJECT)
 
-\color{black} % Vertical line
-\hspace*{0.05\textwidth} % Whitespace between the vertical line and title page text
-\parbox[b]{0.75\textwidth}{ % Paragraph box which restricts text to less than the width of the page
+dvi: $(PROJECT)
+	latex $(PROJECT)
 
-{\noindent\Huge\bfseries \thetitle}\\[2\baselineskip] % Title}
-{\ShowSubtitle}\\[4\baselineskip] % Tagline or further description
-{\Large \textsc{\theauthor}} % Author name
-\vspace{0.5\textheight} % Whitespace between the title block and the publisher
+compress: psu.pdf
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="psu-compressed.pdf" "psu.pdf"
 
-{\noindent \texttt{http://github.io/mtkaalund}\\\ShowRevision{}}\\[\baselineskip] % Publisher and logo
-}}
-\endgroup}
-%%%%% Title page %%%%%
+show: psu.pdf
+	evince psu.pdf &
 
-%%%%% Page style %%%%%
-\makepagestyle{psu}
+all: psu.pdf dvi
 
-\makeevenfoot{psu}{}{}{\small Page \thepage\ of \thelastpage}
-\makeoddfoot{psu}{}{}{\small Page \thepage\ of \thelastpage}
-\makeevenhead{psu}{\small\itshape\leftmark}{}{}
-\makeoddhead{psu}{\small\itshape\rightmark}{}{}
-\makeheadrule{psu}{\textwidth}{\normalrulethickness}
-\makefootrule{psu}{\textwidth}{\normalrulethickness}{\footruleskip}
-\makeatletter
-\makepsmarks {psu}{
-\nouppercaseheads
-\createmark {chapter} {both} {shownumber}{\@chapapp\ }{. \ }
-\createmark {section} {right}{shownumber}{} {. \ }
-\createmark {subsection} {right}{shownumber}{} {. \ }
-\createmark {subsubsection}{right}{shownumber}{} {. \ }
-\createplainmark {toc} {both} {\contentsname}
-\createplainmark {lof} {both} {\listfigurename}
-\createplainmark {lot} {both} {\listtablename}
-\createplainmark {bib} {both} {\bibname}
-\createplainmark {index} {both} {\indexname}
-\createplainmark {glossary} {both} {\glossaryname}
-}
-\makeatother
-\pagestyle{psu}
-%%%%% Page Style %%%%%
-
-\begin{document}
-\selectlanguage{english}
-
-\begin{titlingpage}
-\titlePSU
-\end{titlingpage}
-
-\tableofcontents
-
-\chapter{Theory}
-\include{inputcircuit}
-
-\end{document}
+clean:
+#	@rm -rfv *.pdf
+#	@rm -rfv *.dvi
+#	@rm -rfv *.aux
+#	@rm -rfv *.log
+#	@rm -rfv *.toc
+#	@rm -rfv *.tex.bak
+	$(RM) *.out *.pdf *.dvi *.aux *.log *.tox *.tex.bak

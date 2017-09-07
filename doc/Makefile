@@ -3,7 +3,7 @@ PROJECT=psu.tex
 ######
 RM=@rm -rfv
 #####
-psu.pdf: $(PROJECT)
+psu.pdf: $(PROJECT) dvi
 	pdflatex $(PROJECT)
 
 spell-en: $(PROJECT)
