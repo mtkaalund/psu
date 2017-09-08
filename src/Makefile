@@ -1,132 +1,80 @@
-PROJECTNAME=avr-psu
-SOURCES=main.c
+### Based on http://www.avrfreaks.net/sites/default/files/Makefile.txt
+### Just change variable PRJ to the name of the project.
+### It finds all the *.c files an compiles them
+PRJ		=	avr-psu
+MCU		=	atmega328p
+FCPU		=	16000000UL
+BAUD		=	19200
+SRCS		=	$(wildcard *.c)
+OBJS		=	$(SRCS:.c=.o)
+LSTS		=	$(SRCS:.c=.lst)
+PORT		=	/dev/ttyUSB0
+OPT		=	s
+CFLAGS		=	-g -mmcu=$(MCU) -DF_CPU=$(FCPU) -DBAUD=$(BAUD) -O$(OPT) -Wall -I.
+LDFLAGS		=	-Wl,-Map,$(PRJ).map,--cref
+LIBS		=	-Wl,-u,vfprint -lprintf_min -Wl,-u,vfscanf -lscanf_min
+CC		=	avr-gcc
+OBJCOPY		=	avr-objcopy
+OBJDUMP		=	avr-objdump
+SIZE		=	avr-size
 
-MCU=atmega328p
-F_CPU=16000000
+HEXSIZE		=	$(SIZE) --target=ihex $(PRJ).hex
+ELFSIZE		=	$(SIZE) -x -A $(PRJ).elf
+ALLCFLAGS	= 	$(CFLAGS)
+.PHONY: all clean install sizebefore sizeafter gccversion program
 
-# additional includes (e.g. -I/path/to/mydir)
-INC=-I/usr/lib/avr -I./include
+.c.elf:
+	$(CC) $(CFLAGS) -o $@ $<
 
-CDEFS= -DF_CPU=$(F_CPU)UL -DBAUD=9600
-LIBS=
+.elf.hex:
+	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
-# Optimization level,
-# use s (size opt), 1, 2, 3 or 0 (off)
-OPTLEVEL=s
-PROGRAMMER_MCU=m328p
-AVRDUDE_PROGRAMMERID=arduino
-AVRDUDE_BAUDRATE=115200
-AVRDUDE_PORT=/dev/ttyUSB0
+all: sizebefore gccversion $(PRJ).hex $(PRJ).elf sizeafter
 
-#### FLAGS ####
-HEXFORMAT=ihex
-# compiler
-CFLAGS= $(CDEFS) -I. $(INC) -g -mmcu=$(MCU) -O$(OPTLEVEL)	\
-	-fpack-struct -fshort-enums				\
-	-funsigned-bitfields -funsigned-char			\
-	-Wall -Wstrict-prototypes				\
-	-Wa,-ahlms=$(firstword					\
-	$(filter %.lst, $(<:.c=.lst)))
-# linker
-LDFLAGS=-Wl,-Map,$(TRG).map -mmcu=$(MCU) \
-	-lm $(LIBS)
-### executables ###
-CC=avr-gcc
-OBJCOPY=avr-objcopy
-OBJDUMP=avr-objdump
-SIZE=avr-size
-AVRDUDE=avrdude
-REMOVE=rm -f
+sizebefore:
+	@if [ -f $(PRJ).elf ]; then echo; echo "Size before:"; $(ELFSIZE); echo; fi
 
-### target names ###
-TRG=$(PROJECTNAME).out
-DUMPTRG=$(PROJECTNAME).s
+sizeafter:
+	@if [ -f $(PRJ).elf ]; then echo; echo "Size after:"; $(ELFSIZE); echo; fi
 
-HEXROMTRG=$(PROJECTNAME).hex
-HEXTRG=$(HEXROMTRG) $(PROJECTNAME).ee.hex
-GBINITFILE=gdbinit-$(PROJECTNAME)
+gccversion:
+	@$(CC) --version
 
-OBJDEPS=$(SOURCES:.c=.o)
+program: install
 
-LST=$(filter %.lst, $(OBJDEPS:.o=.lst))
+%.hex: %.elf
+	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
-GENASMFILES=$(filter %.s, $(OBJDEPS:.o=.s))
+%.eep: %.elf
+	$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" --change-section-lma .eeprom=0 -O ihex $< $@
 
-.SUFFIXES : .c .out .s .hex .ee.hex .h
-.PHONY: writeflash clean stats gdbinit
-# Make targets:
-# all, disasm, stats, hex, writeflash/install, clean
-all: $(TRG)
+%.lss: %.elf
+	$(OBJDUMP) -g -S $< > $@
 
-disasm: $(DUMPTRG) stats
+%.sym: %.elf
+	avr-nm -n $< > $@
 
-stats: $(TRG)
-	$(OBJDUMP -g $(TRG)
-	$(SIZE) $(TRG)
+%.elf: $(OBJ)
+	$(CC) $(CFLAGS) $(OBJS) --output $@ $(LDFLAGS)
 
-hex: $(HEXTRG)
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
-writeflash: hex
-	$(AVRDUDE) -c $(AVRDUDE_PROGRAMMERID) 		\
-	-p $(PROGRAMMER_MCU) -P $(AVRDUDE_PORT) -e	\
-	-U flash:w:$(HEXROMTRG) -b $(AVRDUDE_BAUDRATE)
-
-install: writeflash
-
-$(DUMPTRG): $(TRG)
-	$(OBJDUMP) -S  $< > $@
-
-$(TRG): $(OBJDEPS)
-	$(CC) $(LDFLAGS) -o $(TRG) $(OBJDEPS)
-
-### Generating assembly ###
-# ASM from C
 %.s: %.c
 	$(CC) -S $(CFLAGS) $< -o $@
-# asm from (hand coded) asm
-%.s: %.S
-	$(CC) -S $(ASMFLAGS) $< > $@
 
-### Generating object files ###
-# object from c
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+%.d: %.c
+	set -e; $(CC) -MM $(CFLAGS) $< \
+	| sed 's,\(.*\)\.o[ :]*,\1.o \1.d : ,g' > $@; \
+	[ -s $@ ] || rm -f $@
 
-# object from asm
-.S.o :
-	$(CC) $(ASMFLAGS) -c $< -o $@
+include $(SRCS:.c=.d)
 
-### Generating hex files ###
-# hex files from elf
-.out.hex:
-	$(OBJCOPY) -j .text			\
-		-j .data			\
-		-O $(HEXFORMAT) $< $@	
+$(PRJ).elf: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
-.out.ee.hex:
-	$(OBJCOPY) -j .eeprom			\
-		--change-section-lma .eeprom=0	\
-		-O $(HEXFORMAT) $< $@
-
-### Generating a gdb initialisation file 	###
-### Use by launching simulavr and avr-gdb:	###
-###  avr-gdb -x gdbinit-myproject		###
-gdbinit: $(GDBINITFILE)
-
-$(GDBINITFILE): $(TRG)
-	@echo "file $(TRG)" > $(GDBINITFILE)
-	@echo "target remote localhost:1212" 	\
-			>> $(GDBINITFILE)
-	@echo "load"	>> $(GDBINITFILE)
-	@echo "break main" >> $(GDBINITFILE)
-	@echo "continue" >> $(GDBINITFILE)
-	@echo
-	@echo "Use 'avr-gdb -x $(GDBINITFILE)'"
-
-### Clean up ###
 clean:
-	$(REMOVE) $(TRG) $(TRG).map $(DUMPTRG)
-	$(REMOVE) $(OBJDEPS)
-	$(REMOVE) $(LST) $(GDBINITFILE)
-	$(REMOVE) $(GENASMFILES)
-	$(REMOVE) $(HEXTRG)
+	@rm -rfv *.elf *.hex *.eep *.obj *.cof *.map *.sym *.lnk *.lss $(LST) $(OBJS) *.d
+
+install: $(PRJ).hex
+	avrdude -c arduino -p $(MCU) -P $(PORT) -b 115200 -U flash:w:$(PRJ).hex
