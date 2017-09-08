@@ -2,7 +2,9 @@
 #include <string.h>
 
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 
+#include "pwm16.h"
 #include "macros.h"
 #include "messages.h"
 #include "interrupt-uart.h"
@@ -21,6 +23,7 @@ int main( void )
 {
 	/* All initialization */
 	uart_init();
+	pwm16_init();
 
 	stdout = &uart_out;
 	stdin  = &uart_in;
@@ -54,9 +57,10 @@ int main( void )
 							*/
 							;
 							uint16_t a_value;
-							a_value = str_cpy_to_uint16( uart_rec_str );
+							a_value = str_cpy_to_uint16( (char *) uart_rec_str );
 
-							printf("Setting amp to %imA\n", a_value);
+							printf_P(PSTR("Setting amp to %imA\n"), a_value);
+							pwm16a_set( a_value );
 							/* Still need to set the ampere */
 							break;
 						case 'v':
@@ -67,8 +71,9 @@ int main( void )
 							*/
 							;
 							uint16_t v_value;
-							v_value = str_cpy_to_uint16( uart_rec_str );
-							printf("Setting voltage to %imV\n", v_value);
+							v_value = str_cpy_to_uint16( (char *) uart_rec_str );
+							printf_P(PSTR("Setting voltage to %imV\n"), v_value);
+							pwm16b_set(v_value); /* Setting pwm value */
 							break;
 						default:
 							print_help();
