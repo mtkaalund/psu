@@ -85,7 +85,15 @@ int main( void )
 					/* here we check if the command is "get " */
 					if(uart_rec_str[1] == 'e' && uart_rec_str[2] == 't' && uart_rec_str[3] == ' ')
 					{
-						printf("Get command initialized\n");
+						switch(uart_rec_str[4])
+						{
+						case 'a': /* retrieves current amp output, and limit */
+							printf_P( PSTR("%imA\n"), 0);
+							break;
+						case 'v': /* retrieves current voltage output, and limit */
+							printf_P( PSTR("%imV\n"), 0);
+							break;
+						}
 					}
 					break;
 				default: /* default message, if command is not in command structure */
