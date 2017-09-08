@@ -38,7 +38,7 @@ int main( void )
 		if( uart_ready == 1 ) /* If any serial communication is received */
 		{
 			uint8_t size_array = strlen( uart_rec_str ); /* Getting the size of the array */
-			if(size_array > 6)
+			if(size_array > 4)
 			{
 				/* To be pasing of the commands */
 				switch( uart_rec_str[0] )
