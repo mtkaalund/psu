@@ -74,7 +74,7 @@ $(PRJ).elf: $(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
-	@rm -rfv *.elf *.hex *.eep *.obj *.cof *.map *.sym *.lnk *.lss $(LST) $(OBJS) *.d
+	@rm -rfv *.elf *.hex *.eep *.obj *.cof *.map *.sym *.lnk *.lss *.lst $(LST) $(OBJS) *.d
 
 install: $(PRJ).hex
 	avrdude -c arduino -p $(MCU) -P $(PORT) -b 115200 -U flash:w:$(PRJ).hex
