@@ -13,7 +13,7 @@ OPT		=	s
 CFLAGS		=	-g -mmcu=$(MCU) -DF_CPU=$(FCPU) -DBAUD=$(BAUD) -O$(OPT) -Wall -I.
 LDFLAGS		=	-Wl,-Map,$(PRJ).map,--cref
 LIBS		=	-Wl,-u,vfprint -lprintf_min -Wl,-u,vfscanf -lscanf_min
-CC		=	avr-gcc
+CC		=	avr-gcc-5.4.0
 OBJCOPY		=	avr-objcopy
 OBJDUMP		=	avr-objdump
 SIZE		=	avr-size
