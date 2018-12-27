@@ -5,8 +5,8 @@ HEADDOCUMENT=psu.tex
 ######
 RM=@rm -rfv
 #####
-$(PROJECT).pdf: $(HEADDOCUMENT) dvi
-	pdflatex $(HEADDOCUMENT)
+#$(PROJECT).pdf: $(HEADDOCUMENT) dvi
+#	pdflatex $(HEADDOCUMENT)
 .DEFAULT: all
 .PHONY: all clean
 
